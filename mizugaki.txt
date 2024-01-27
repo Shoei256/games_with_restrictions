@@ -1,0 +1,18 @@
+Clear[al, move,Gr,pposition,f];ss=40;
+al=Flatten[Table[{a,b},{a,0,ss},{b,1,ss}],1];
+Table[f[n]=n,{n,0,2ss}];
+move[z_]:=Block[{p},p=z;If[p[[1]]==0,{},
+Table[{p[[1]]-k,p[[2]]+1},{k,1,Min[p[[1]],f[p[[2]]]]}]]];
+Mex[L_]:=Min[Complement[Range[0,Length[L]],L]];
+Gr[pos_]:=Gr[pos]=Mex[Map[Gr,move[pos]]];
+pposition0=Select[al,Gr[#]==0&];
+pposition=Map[{#[[2]],#[[1]]}&,pposition0];
+ff[x_]:=If[{x[[1]],x[[2]]}=={0,-1},"",
+Which[x[[2]]==-1,x[[1]],x[[1]]==0,x[[2]],1==1,(**Gr[{x[[2]],x[[1]]}]**)]];
+bl=Flatten[Table[{n,m},{n,2,ss+2},{m,1,ss+2}],1];
+aa1=Table[{n,1},{n,2,30}];aa2=Table[{1,n},{n,2,30+2}];
+Grid[Table[ff[{n,m}],{n,0,11},{m,-1,30}],Frame->All,
+Background->{None,None,Join[Table[bl[[s]]->GrayLevel[0.7],{s,1,Length[bl]}],
+Table[aa1[[s]]->GrayLevel[0.9],{s,1,Length[aa1]}],
+Table[aa2[[s]]->GrayLevel[0.9],{s,1,Length[aa2]}],
+Table[{pposition[[s,1]]+1,pposition[[s,2]]+2}->White,{s,1,Length[pposition]}]]}]
